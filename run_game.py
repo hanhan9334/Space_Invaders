@@ -14,23 +14,30 @@ from db.db import getAllRankings, saveScoreToDb
 
 
 class GameStage():
+    """Class switching in 3 stages of the game """
+
     def __init__(self):
         self.stage = 'welcome'
 
     def welcome(self):
+        """Welcome window """
+        # Get user name variable
         global textUserInput
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
+                # User delete a letter in user name
                 if event.key == pygame.K_BACKSPACE:
                     textUserInput = textUserInput[:-1]
                     screen.fill((0, 0, 0))
                     print(textUserInput)
+                    # User add a letter in user name
                 else:
                     textUserInput += event.unicode
 
+            # Switch to game stage when play button clicked
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_x, mouse_y = pygame.mouse.get_pos()
                 check_play_button(ai_settings, screen, stats, sb, play_button,
@@ -40,6 +47,7 @@ class GameStage():
                 if button_clicked:
                     self.stage = 'game'
 
+        """ Draw everything in welcome window"""
         screen.blit(textTitle, textRectTitle)
         screen.blit(textRankTitle, textRectTitleRanking)
 
@@ -72,15 +80,18 @@ class GameStage():
                         mouse_x, mouse_y)
                     start_button_clicked = play_button.rect.collidepoint(
                         mouse_x, mouse_y)
+                    # Over Button clicked, go to over stage
                     if over_button_clicked:
                         user_score = sb.stats.score
                         saveScoreToDb(textUserInput, user_score)
                         self.stage = 'over'
+                    # Play button clicked, start game again
                     elif start_button_clicked:
                         check_play_button(
                             ai_settings, screen, stats, sb, play_button, ship, aliens, bullets, mouse_x, mouse_y)
         check_events(ai_settings, screen, stats, sb,
                      play_button, ship, aliens, bullets)
+        # Run game if user is alive
         if stats.game_active:
             ship.update()
             update_bullets(ai_settings, screen, stats,
@@ -97,7 +108,7 @@ class GameStage():
         listNames = getAllRankings()[0]
         listScores = getAllRankings()[1]
 
-        # Text user score
+        # Text of user score
         textRankTitle = font.render(
             'Your Score: ' + str(user_score), True, green)
         textRectTitleRanking = textRankTitle.get_rect()
@@ -128,6 +139,8 @@ class GameStage():
             "5      "+listNames[4]+"        " + str(listScores[4]), True, blue)
         text5Rect = text5.get_rect()
         text5Rect.center = (600, 500)
+
+        """Draw everything """
         screen.blit(textTitle, textRectTitle)
         screen.blit(textRankTitle, textRectTitleRanking)
 
@@ -196,8 +209,10 @@ textRankTitle = font.render('Rankings', True, green)
 textRectTitleRanking = textRankTitle.get_rect()
 textRectTitleRanking.center = (600, 250)
 
+# Get top 5 scores in db
 listNames = getAllRankings()[0]
 listScores = getAllRankings()[1]
+
 # Render ranking1
 text1 = font.render(
     "1      "+listNames[0]+"        " + str(listScores[0]), True, blue)

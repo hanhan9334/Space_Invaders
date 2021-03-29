@@ -3,7 +3,6 @@ from pygame.sprite import Sprite
 
 
 class Bullet(Sprite):
-    """A class to manage bullets fired from the ship"""
 
     def __init__(self, ai_settings, screen, ship):
         """Create a bullet object at the ship's current position."""
@@ -24,9 +23,8 @@ class Bullet(Sprite):
 
     def update(self):
         """Move the bullet up the screen."""
-        # Update the decimal position of the bullet.
+
         self.y -= self.speed_factor
-        # Update the rect position.
         self.rect.y = self.y
 
     def draw_bullet(self):

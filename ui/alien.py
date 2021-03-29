@@ -4,7 +4,6 @@ from pygame.sprite import Sprite
 
 
 class Alien(Sprite):
-    """A class to represent a single alien in the fleet."""
 
     def __init__(self, ai_settings, screen):
         """Initialize the alien and set its starting position."""
@@ -24,7 +23,7 @@ class Alien(Sprite):
         self.x = float(self.rect.x+200)
 
     def blitme(self):
-        """Draw the alien at its current location."""
+        # Draw the alien
         self.screen.blit(self.image, self.rect)
 
     def check_edges(self):
