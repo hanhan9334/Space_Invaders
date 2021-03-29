@@ -11,8 +11,9 @@ class Ship(Sprite):
         self.ai_settings = ai_settings
         # Load the ship image and get its rect.
         package_dir = os.path.dirname(os.path.abspath(__file__))
-        filename = os.path.join(package_dir, 'images/ship.bmp')
+        filename = os.path.join(package_dir, '../images/canon.png')
         self.image = pygame.image.load(filename)
+        self.image = pygame.transform.scale(self.image, (60, 40))
         self.rect = self.image.get_rect()
         self.screen_rect = screen.get_rect()
         # Start each new ship at the bottom center of the screen.

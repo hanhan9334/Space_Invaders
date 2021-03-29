@@ -1,9 +1,11 @@
 import sys
 import pygame
-from bullet import Bullet
-from alien import Alien
+from ui.button_play import ButtonPlay
+from ui.alien import Alien
 from time import sleep
-from game_stats import GameStats
+from logic.game_stats import GameStats
+from ui.button_over import ButtonOver
+from ui.bullet import Bullet
 
 
 def check_keydown_events(event, ai_settings, screen, ship, bullets):
@@ -71,7 +73,7 @@ def check_events(ai_settings, screen, stats, sb,
                               ship, aliens, bullets, mouse_x, mouse_y)
 
 
-def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, play_button):
+def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, play_button, over_button):
     """Update images on the screen and flip to the new screen."""
     # Redraw the screen during each pass through the loop.
     screen.fill(ai_settings.bg_color)
@@ -88,7 +90,7 @@ def update_screen(ai_settings, screen, stats, sb, ship, aliens, bullets, play_bu
     # Draw the play button if the game is inactive.
     if not stats.game_active:
         play_button.draw_button()
-
+        over_button.draw_button()
     # Make the most recently drawn screen visible.
     pygame.display.flip()
 

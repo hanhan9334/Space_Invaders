@@ -1,6 +1,6 @@
 import pygame.font
 from pygame.sprite import Group
-from ship import Ship
+from ui.ship import Ship
 
 
 class Scoreboard():
@@ -15,7 +15,7 @@ class Scoreboard():
 
         # Font settings for scoring information.
         self.text_color = (30, 30, 30)
-        self.font = pygame.font.SysFont(None, 48)
+        self.font = pygame.font.SysFont(None, 28)
 
         # Prepare the initial score images.
         self.prep_score()
@@ -26,7 +26,7 @@ class Scoreboard():
     def prep_score(self):
         """Turn the score into a rendered image."""
         rounded_score = int(round(self.stats.score, -1))
-        score_str = "{:,}".format(rounded_score)
+        score_str = 'Score: ' + "{:,}".format(rounded_score)
         self.score_image = self.font.render(
             score_str, True, self.text_color, self.ai_settings.bg_color)
 
@@ -37,16 +37,22 @@ class Scoreboard():
 
     def show_score(self):
         """Draw scores and ships to the screen."""
+        self.text = self.font.render(
+            'Lives: ', True, self.text_color, self.ai_settings.bg_color)
+        self.textRect = self.text.get_rect()
+        self.textRect.left = self.screen_rect.left+10
+        self.textRect.top = 20
         self.screen.blit(self.score_image, self.score_rect)
         self.screen.blit(self.high_score_image, self.high_score_rect)
         self.screen.blit(self.level_image, self.level_rect)
+        self.screen.blit(self.text, self.textRect)
         # Draw ships.
         self.ships.draw(self.screen)
 
     def prep_high_score(self):
         """Turn the high score into a rendered image."""
         high_score = int(round(self.stats.high_score, -1))
-        high_score_str = "{:,}".format(high_score)
+        high_score_str = 'Highesst Score: '+"{:,}".format(high_score)
         self.high_score_image = self.font.render(
             high_score_str, True, self.text_color, self.ai_settings.bg_color)
 
@@ -57,7 +63,7 @@ class Scoreboard():
 
     def prep_level(self):
         """Turn the level into a rendered image."""
-        self.level_image = self.font.render(str(self.stats.level), True,
+        self.level_image = self.font.render('Level: '+str(self.stats.level), True,
                                             self.text_color, self.ai_settings.bg_color)
 
         # Position the level below the score.
@@ -70,6 +76,6 @@ class Scoreboard():
         self.ships = Group()
         for ship_number in range(self.stats.ships_left):
             ship = Ship(self.ai_settings, self.screen)
-            ship.rect.x = 10 + ship_number * ship.rect.width
+            ship.rect.x = 100 + ship_number * ship.rect.width
             ship.rect.y = 10
             self.ships.add(ship)
