@@ -82,7 +82,7 @@ class GameStage():
                         mouse_x, mouse_y)
                     # Over Button clicked, go to over stage
                     if over_button_clicked:
-                        user_score = sb.stats.score
+                        user_score = sb.stats.high_score
                         saveScoreToDb(textUserInput, user_score)
                         self.stage = 'over'
                     # Play button clicked, start game again
